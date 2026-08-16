@@ -1,0 +1,14 @@
+# raw velocity fields, 951 MB - regenerate with scripts/sweep.py
+data/Re*.npz
+
+# per-Reynolds coordinate plots, regenerate with scripts/plot_modes.py
+plots/
+
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.ipynb_checkpoints/
+sweep/runs/
+sweep/*.log
+*.tmp
