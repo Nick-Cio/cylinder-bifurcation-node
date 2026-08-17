@@ -12,3 +12,6 @@ __pycache__/
 sweep/runs/
 sweep/*.log
 *.tmp
+
+# transient-cut experiment runs, regenerate with sweep/train_cut.py
+sweep/runs_cut/

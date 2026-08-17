@@ -129,6 +129,25 @@ make the floor explicit: a 1D autonomous ODE cannot oscillate at all, since
 `ż = f(z)` gives one velocity per state and an oscillation needs the same state
 to be traversed in both directions.
 
+### `7_sindy_vs_node.ipynb` — SINDy as a baseline
+Head-to-head against SINDy at one stable Reynolds number (36) and one on the
+limit cycle (73), measuring only the growth rate at the origin and the
+trajectory. SINDy fits `ż = A z + Q(z, z)`, the linear-plus-quadratic library
+that Galerkin projection of Navier-Stokes gives exactly, with no constant term so
+`z = 0` stays a fixed point. Both models are fitted on one Reynolds number at a
+time, so neither sees data the other does not.
+
+At Re = 73 the two are **level** on the growth rate, +0.1296 against +0.1294,
+both about 43% high. At Re = 36 SINDy reports a growing mode for a flow that
+visibly decays, at every sample weighting, while the neural ODE gets the stable
+case to 4%. On trajectories it is not close: the neural ODE completes all four
+runs, SINDy diverges on all four, typically within 60 of 428 steps. Adding the
+cubic library makes both worse, 219% and 32 of 349 steps at Re = 73.
+
+Fits are cached in `notebooks/sindy_fits.pkl`, produced by
+`scripts/sindy_vs_node.py`, with `scripts/sindy_structure.py` for the cubic
+library and `scripts/psindy.py` for the shared fitting routines.
+
 ---
 
 ## Reproducing

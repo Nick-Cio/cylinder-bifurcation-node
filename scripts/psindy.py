@@ -142,8 +142,18 @@ def linear_operator(Xi, Re, r, order, T):
 
 
 def leading_eig(Xi, Re, r, order, T):
+    """Leading OSCILLATORY eigenvalue.
+
+    A Hopf bifurcation is a complex pair crossing the axis, so the mode that
+    matters always has a nonzero imaginary part.  Purely real eigenvalues of the
+    fitted operator routinely sit above the oscillatory pair -- they belong to
+    the shift mode / mean-flow distortion, not to the vortex shedding -- and
+    taking argmax over the whole spectrum picks those instead.
+    """
     ev = np.linalg.eigvals(linear_operator(Xi, Re, r, order, T))
-    k = int(np.argmax(ev.real))
+    osc = np.abs(ev.imag) > 1e-6
+    cand = np.where(osc)[0] if osc.any() else np.arange(len(ev))
+    k = int(cand[np.argmax(ev[cand].real)])
     return float(ev[k].real), float(abs(ev[k].imag)) / (2 * np.pi)
 
 
